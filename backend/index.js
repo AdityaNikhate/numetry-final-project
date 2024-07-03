@@ -7,11 +7,15 @@ import userRoute from "./routes/userRoute.js"
 dotenv.config({
   path:'.env'
 })
+const corsOption={
+  origin:'http://localhost:5173',
+  credentials:true
+};
 
 const PORT = process.env.PORT||8081;
-const app = express();
+const app = express();  
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOption));
 
 app.use('/api/v1/user', userRoute);
 
