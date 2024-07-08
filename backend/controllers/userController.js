@@ -84,3 +84,64 @@ export const login = async (req, res) => {
       console.log(error);
   }
 }
+
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("token", { httpOnly: true, sameSite: 'strict' });
+    return res.status(200).json({
+      message: "Successfully logged out",
+      success: true
+    });
+  } catch (error) {
+    console.log(`Error in logout: ${error}`);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false
+    });
+  }
+};
+
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { username, newPassword, confirmNewPassword } = req.body;
+    if (!username || !newPassword || !confirmNewPassword) {
+      return res.status(400).json({
+        message: "All fields are required",
+        success: false
+      });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({
+        message: "Passwords do not match",
+        success: false
+      });
+    }
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({
+        message: "User with this username does not exist",
+        success: false
+      });
+    }
+
+    const hashedPassword = await bcryptjs.hash(newPassword, 16);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({
+      message: "Password successfully updated",
+      success: true
+    });
+
+  } catch (error) {
+    console.log(`Error in forgotPassword: ${error}`);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false
+    });
+  }
+};

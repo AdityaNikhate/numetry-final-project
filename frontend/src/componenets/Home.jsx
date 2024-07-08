@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navigation from './Navigation'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+// import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import Hero from './Hero';
 
 const Home = () => {
+  const user = useSelector((state)=>state.user.authUser);
+  const navigateTo = useNavigate()
+  useEffect(()=>{
+    if(!user){
+      navigateTo('/')
+    }
+  },[])
   return (
     <div className='w-full min-h-screen relative'>
       <div className=" absolute w-full h-screen top-0 left-0 -z-20 bg-white">
@@ -9,6 +21,7 @@ const Home = () => {
       </div>
 
       <Navigation/>
+      <Hero/>
     </div>
   )
 }

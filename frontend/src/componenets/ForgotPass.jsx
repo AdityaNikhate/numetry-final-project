@@ -1,39 +1,37 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setAuthUser } from "../redux/userSlice";
 import axios from "axios";
 
 
-const Login = () => {
+const ForgotPass = () => {
   const [user, setUser] = useState({
     username: "",
-    password: "",
+    newPassword: "",
+    confirmNewPassword: ""
   });
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/api/v1/user/login`, user, {
+      const res = await axios.post(`http://localhost:8080/api/v1/user/changepass`, user, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       });
-      navigate("/home");
-      console.log(res);
-      dispatch(setAuthUser(res.data));
+      toast.success("Login with new credential.")
+      navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
     }
     setUser({
       username: "",
-      password: "",
+      newPassword: "",
+      confirmNewPassword: ""
     });
   };
 
@@ -46,7 +44,7 @@ const Login = () => {
       <div className=" z-10 w-1/3 ">
         <div className="w-full p-6 bg-slate-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-[0.05] border shadow-md border-gray-100">
           <h1 className="text-5xl font-extrabold text-center font-['Reenie_Beanie']">
-            Login
+            Forgot-Password
           </h1>
           <form onSubmit={onSubmitHandler} action="">
             <div>
@@ -66,25 +64,33 @@ const Login = () => {
                 <span className="text-base label-text">Password</span>
               </label>
               <input
-                value={user.password}
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                value={user.newPassword}
+                onChange={(e) => setUser({ ...user, newPassword: e.target.value })}
                 className="w-full input input-bordered h-10"
                 type="password"
                 placeholder="Password"
               />
             </div>
-            <p className="text-center font-bold text-gray-700 my-2">
-              Don't have an account? <Link to="/signup" className="text-blue-600 hover:text-blue-700"> signup </Link>
-            </p>
-            <p className="text-center font-bold text-gray-700 my-2">
-              Forgot the password? <Link to="/forgotpass" className="text-blue-600 hover:text-blue-700"> Reset Password </Link>
-            </p>
+
+            <div>
+              <label className="label p-2">
+                <span className="text-base label-text">Confirm Password</span>
+              </label>
+              <input
+                value={user.confirmNewPassword}
+                onChange={(e) => setUser({ ...user, confirmNewPassword: e.target.value })}
+                className="w-full input input-bordered h-10"
+                type="password"
+                placeholder="Password"
+              />
+            </div>
+            
             <div>
               <button
                 type="submit"
-                className="btn btn-block btn-sm mt-2 border border-slate-700"
+                className="btn btn-block btn-sm mt-5 border border-slate-700"
               >
-                Login
+                Save Password
               </button>
             </div>
           </form>
@@ -94,8 +100,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPass;
 
-{
-  /* <div class="absolute top-0 -z-10 h-full w-full bg-white"><div class="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]"></div></div> */
-}
