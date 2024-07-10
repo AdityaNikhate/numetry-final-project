@@ -1,4 +1,5 @@
 import React from "react";
+import Options from "./Options";
 
 const Hero = () => {
   return (
@@ -29,6 +30,8 @@ const Hero = () => {
           />
         </div>
       </div>
+
+      <Options/>
     </div>
   );
 };

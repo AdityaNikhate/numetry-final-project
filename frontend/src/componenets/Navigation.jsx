@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { emptyAuthUser } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Navigation = () => {
@@ -24,7 +24,7 @@ const Navigation = () => {
     }
   };
   return (
-    <div className="sticky top-0 w-full px-10 py-2 flex items-center shadow-md shadow-gray-300 rounded-lg">
+    <div className="sticky bg-white z-20 top-0 w-full px-10 py-2 flex items-center shadow-md shadow-gray-300 rounded-lg">
       <div className="flex items-center">
         <GiHummingbird className="text-5xl text-[#CA5CDD]" />
         <h1 className="text-2xl uppercase font-semibold tracking-widest text-[#CA5CDD] ml-3">
@@ -33,6 +33,14 @@ const Navigation = () => {
       </div>
       <nav className="mx-auto">
         <ul className="flex space-x-6">
+        <li>
+            <Link
+              to="/home"
+              className="text-lg text-[#CA5CDD] hover:underline"
+            >
+              Home
+            </Link>
+          </li>
           <li>
             <a
               href="/resume"
@@ -52,12 +60,12 @@ const Navigation = () => {
             </a>
           </li>
           <li>
-            <a
-              href="/template"
+            <Link
+              to="/home/profile"
               className="text-lg text-[#CA5CDD] hover:underline"
             >
-              Template
-            </a>
+              Profile
+            </Link>
           </li>
         </ul>
       </nav>
@@ -66,7 +74,7 @@ const Navigation = () => {
         <summary className="btn m-1"><FaUserCircle className="inline-block text-2xl text-[#CA5CDD]" /></summary>
         <ul className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow font-semibold text-sm">
           <li>
-            <a>Profile</a>
+            <a onClick={()=>navigateTo('/home/profile')}>Profile</a>
           </li>
           <li>
             <a onClick={()=>{handlelogout()}}>LogOut</a>

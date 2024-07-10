@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import Navigation from './Navigation'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 // import toast from 'react-hot-toast';
 import toast from "react-hot-toast";
 import Hero from './Hero';
+import Options from './Options';
 
 const Home = () => {
   const user = useSelector((state)=>state.user.authUser);
@@ -21,7 +22,8 @@ const Home = () => {
       </div>
 
       <Navigation/>
-      <Hero/>
+
+      <Outlet/>
     </div>
   )
 }

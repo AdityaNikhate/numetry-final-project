@@ -4,6 +4,8 @@ import Signup from "./componenets/Signup"
 import { BrowserRouter, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./componenets/Home";
 import ForgotPass from "./componenets/ForgotPass";
+import Profile from "./componenets/Profile";
+import Hero from "./componenets/Hero";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,17 @@ const router = createBrowserRouter([
   }, 
   {
     path:'/home',
-    element:<Home/>
+    element:<Home/>,
+    children:[
+      {
+        path:'profile',
+        element: <Profile/>
+      }, 
+      {
+        index:true,
+        element:<Hero/>
+      }
+    ]
   },
   {
     path:'/forgotpass',
